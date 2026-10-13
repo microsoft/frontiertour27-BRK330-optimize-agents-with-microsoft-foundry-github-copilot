@@ -6,7 +6,7 @@
 
 | Item | Link | Notes |
 |---|---|---|
-| Delivery deck | Avail 10.12.26  | Required before final publication |
+| Delivery deck | Slides: [English](https://aka.ms/aitour27/BRK330/slides/en) | Session delivery slides (English) |
 | Session recording | Coming soon | Add the reviewed hosted recording URL after production |
 | Attendee landing page | [README](../README.md) | Public starting point |
 | Attendee instructions | [Instructions](../instructions/README.md) | Step-by-step guide for the four acts, from setup to cleanup |
