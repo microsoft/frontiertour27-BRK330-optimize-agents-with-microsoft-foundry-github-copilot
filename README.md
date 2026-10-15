@@ -62,8 +62,8 @@ Pick your next step based on your learning style:
 
 | Resource | What you'll get |
 |----------|-----------------|
-| **[Session recording](https://aka.ms/aitour27/brk330/youtube)** | A recording of session BRK330 by the session creator |
-| Slides: **[English](https://aka.ms/aitour27/BRK330/slides/en)** | Session slides for BRK330. More languages coming soon! |
+| **[Session recording](https://aka.ms/ft27/brk330/youtube)** | A recording of session BRK330 by the session creator |
+| Slides: **[English](https://aka.ms/ft27/brk330/slides/en)** | Session slides for BRK330. More languages coming soon! |
 | **[Microsoft Learn](https://learn.microsoft.com)** | Official documentation and guided learning paths on these topics |
 | **[Frontier Tour 2027 Resource Center](https://aka.ms/FrontierTour27)** | Additional session repos and materials from Frontier Tour 2027 |
 | **[Microsoft Foundry Community](https://aka.ms/MicrosoftFoundryDiscord-ft27)** | Connect with other learners and experts in our Discord community |
