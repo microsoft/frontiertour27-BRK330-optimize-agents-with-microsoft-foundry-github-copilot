@@ -77,7 +77,7 @@ section::after {
 
 <!-- 
 Image description: 
-Microsoft AI Tour opening slide with the Microsoft logo, blue title text, and a translucent blue and violet ribbon graphic.
+Microsoft AI Tour opening slide: the Microsoft logo top left, "Microsoft AI Tour" in large blue gradient text, and a translucent blue and violet ribbon graphic on the right.
 
 Timing: 0 seconds
 Cumulative: 0:00
@@ -98,7 +98,7 @@ Holding slide. Leave this up while attendees take their seats. Don't speak to it
 
 <!-- 
 Image description: 
-Title slide for "Optimize agents with Microsoft Foundry and GitHub Copilot," with placeholders for the speaker's name, role, and organization.
+Title slide for "Optimize agents with Microsoft Foundry and GitHub Copilot," with the Microsoft logo, a ribbon graphic, and a speaker block: a circular placeholder photo (a microphone on stage) beside placeholder text for Speaker Name, Role, and Organization.
 
 Timing: 20 seconds
 Cumulative: 0:20
@@ -112,7 +112,7 @@ Hi everyone, and welcome. I'm [name], [role] at [organization]. Today we want to
 We'll do it by following one team as they take an agent from "it works" to "it's measurably better," one step at a time.
 
 Presenter Guidance:
-Before the session, update this slide with your name, role, and organization. Keep the intro short and personal, then move on to the story.
+Before the session, replace the placeholder photo with your own headshot, and update your name, role, and organization. Keep the intro short and personal, then move on to the story.
 -->
 
 ---
@@ -498,7 +498,7 @@ Image description:
 Andre's photo above an "Andre's CFO Math" label. Large text reads "$11,400 — Modeled annual costs for concierge." Three figures below: Avg Cost Per Request $0.019, Requests per month 50,000, and Quality: not measured "?". Footnote: based on GPT-5.4 Global Standard list pricing of about $2.50 per million input tokens and $15 per million output tokens, applied to the observed workload's token mix.
 
 Timing: 30 seconds
-Cumulative: 8:50
+Cumulative: 9:15
 
 -->
 
@@ -524,8 +524,8 @@ Pause after "Not bad." These figures were calculated from the traces of 108 requ
 Image description: 
 Microsoft Foundry, contoso-travel agent, Traces tab. Filters for version, status, duration, tokens, estimated cost, and annotation. A table lists recent traces with ID, status, created time, duration, tokens in and out, and estimated cost per run.
 
-Timing: 60 seconds
-Cumulative: 9:50
+Timing: 50 seconds
+Cumulative: 10:05
 
 -->
 
@@ -535,12 +535,14 @@ This is where traces help.
 
 Every time someone sends the concierge a request, Foundry records what happened. Which model calls were made. Which tools were called, and in what order. How many tokens each step used, and how long each step took.
 
-Let's open up the traces for one of these requests. Each step is a span, and we can see what went into it and what came out. So instead of guessing why a request went wrong, we can find the exact step where it happened.
+Let's open one up. This is a simple request: rent a compact car in Berlin. And look at the top: twenty-seven steps, ten model calls, four tool calls. For one car. Each step is a span, and we can see exactly what went into it and what came out.
+
+And here's something interesting. The answer says the policy check "passed," but no policy rule was cited. Keep that in mind.
 
 That's one run. But Caldova will have thousands.
 
 Presenter Guidance:
-Play CLIP03-TRACES. Point to the tokens, latency, and cost columns before you open the trace. Tracing is generally available; Trace Replay is in preview.
+Play CLIP03-TRACES (0:41). Point to the tokens, latency, and cost columns, then to the span and call counts at the top right of the open trace (27 spans, 10 chat calls, 4 tool calls). Land the "passed, but no rule cited" detail; it foreshadows the policy hard-gate insight on slide 21. Tracing is generally available; Trace Replay (the timeline at the bottom) is in preview.
 -->
 
 ---
@@ -552,7 +554,7 @@ Image description:
 "Public preview" badge above the title "Insights in Foundry." Three points on the left: "Catch unpredicted regressions" (watches production traces and flags behavior regressions in task completion, tool selection, planning, and policy, plus cost and latency spikes); "Root cause in minutes" (every notification links to the traces behind it); and "A recommended fix, not advice" (hand off to Agent Optimizer for better prompt, model, and skill configs, or apply a targeted tool or instruction fix). On the right, a Foundry screenshot of the contoso-travel agent's Insights tab lists 5 insights; the selected policy hard-gate insight shows 58 linked traces.
 
 Timing: 30 seconds
-Cumulative: 10:20
+Cumulative: 10:35
 
 -->
 
@@ -562,10 +564,10 @@ Nobody's going to read thousands of traces one by one. That's where Insights in 
 
 Most testing starts from a specification: we decide up front what to check. Insights starts from evidence. It looks at what the agent actually did across real traces, finds the patterns that matter, and links each one back to the traces behind it.
 
-So let's send our concierge a batch of realistic questions, let the traces pile up, and then ask for Insights so we know what to optimize for.
+So let's send our concierge a batch of realistic questions, let the traces pile up, and then ask for Insights.
 
 Presenter Guidance:
-Play CLIP04-QUESTIONS. Land the contrast between specification and evidence. Insights in Foundry is in public preview.
+Land the contrast between specification and evidence. No clip on this slide; CLIP04-QUESTIONS plays on the next one. Insights in Foundry is in public preview.
 -->
 
 ---
@@ -574,29 +576,21 @@ Play CLIP04-QUESTIONS. Land the contrast between specification and evidence. Ins
 
 <!-- 
 Image description: 
-Terminal summary of 108 exploring-question runs, with outcome, latency, token, and tool-use results grouped by difficulty. The clip continues into the Foundry Insights tab: five active insights, including three high-severity tool call failures, a high-severity reliability error (policy hard gate treated as a procedural checkbox, 58 linked traces), and a medium-severity output quality issue.
+VS Code with the terminal running bash infra/04-run-questions.sh: 108 of 108 exploring-question runs complete. Copilot Chat summarizes the results in a table by difficulty (easy, medium, hard; 36 questions each), with outcomes, latency, tokens, and tool use, and notes that the traces are now ready for Insights.
 
-Timing: 75 seconds
-Cumulative: 11:35
+Timing: 35 seconds
+Cumulative: 11:10
 
 -->
 
 <!--
 Speaker notes:
-Here are the questions going through, from simple lookups to tricky multi-step trips. Over a hundred of them. Then we ask Foundry for Insights.
+Here are the questions going through, from simple lookups to tricky multi-step trips. Over a hundred of them: thirty-six each of easy, medium, and hard.
 
-What comes back isn't a pile of traces. It's five insights, grouped by category and ranked by severity.
-
-Most are tool call failures. In one, the agent invented a booking lead time and then blocked a trip because of it. In another, it recommended a flight without running the mandatory policy check.
-
-The one that ties straight back to Krystal is a reliability error, and it shows up across fifty-eight traces. The agent treated the policy check as a box to tick, not a gate it had to prove it passed.
-
-Each insight explains what happened, links the traces that prove it, and points to a fix we can review.
-
-So we made it work. And now we know exactly where its behavior falls short. Time to make it better.
+And every run lands in Traces, with its duration, tokens in and out, and estimated cost. That's the raw material Insights works from. So now, let's ask Foundry what it sees.
 
 Presenter Guidance:
-Play CLIP05-INSIGHTS. Pause on the insights list, then on the policy hard-gate insight and its 58 linked traces. The real analysis takes longer than this edited recording. Insights in Foundry is in public preview.
+Play CLIP04-QUESTIONS (0:24). When the Traces list appears, point to the Duration, Tokens, and Estimated cost columns. Have CLIP05-INSIGHTS ready on the next slide.
 -->
 
 ---
@@ -605,10 +599,41 @@ Play CLIP05-INSIGHTS. Pause on the insights list, then on the policy hard-gate i
 
 <!-- 
 Image description: 
+Microsoft Foundry, contoso-travel agent, Insights tab (preview). Five active insights are listed with category and severity: Invented zero-day booking lead time caused a false policy block (tool call failures, high); Misjudged when clarification was necessary and overstated search evidence (tool call failures, high); Flight recommended without mandatory policy check (tool call failures, high); Policy hard gate was treated as a procedural checkbox rather than an evidence-bearing gate (reliability errors, high); and Weak provenance control for structured-result qualifiers (output quality, medium). The selected insight shows a description, a linked-traces chart over time, and a highlighted traces table.
+
+Timing: 80 seconds
+Cumulative: 12:30
+
+-->
+
+<!--
+Speaker notes:
+What comes back isn't a pile of traces. It's five insights, each with a category and a severity. Four are high severity.
+
+Each one tells a story. In one, the agent invented a booking lead time of zero days, and then blocked a perfectly valid trip because of it. In another, it recommended a flight without ever running the mandatory policy check.
+
+And then there's the big one: a reliability error across fifty-eight traces. Remember the trace we opened, where the policy check "passed" but no rule was cited? This is that pattern, everywhere. The agent treated "not blocked" as "compliant," instead of getting real evidence from the policy check. A box to tick, not a gate it had to prove it passed. And without that evidence, bookings like Krystal's get stopped.
+
+For every insight, we get a plain-language description, a chart of when it happened, and links straight to the traces behind it. And Insights goes one step further: each one comes with a recommended fix we can review.
+
+One more thing worth noticing. Insights itself runs on a model we deploy, and that model does the heavy reading across all those traces. Here, it made a couple of hundred calls and read millions of tokens. We picked one of our strongest models for quality, but it has a cost too. So this is one more place we could optimize later, by trying a cheaper model and checking the insights still hold up.
+
+So we made it work. And now we know exactly where its behavior falls short. Time to make it better.
+
+Presenter Guidance:
+Play CLIP05-INSIGHTS (1:02). Walk the insights list top to bottom: point to the category and severity on each, then the linked-traces chart and the highlighted traces table. Pause on the policy hard-gate insight and its 58 linked traces, and make the callback to the trace on slide 18. The recommended fixes aren't shown in the clip; mention them in one line. At the end of the clip, the insights-judge deployment's Monitor tab shows what the analysis itself cost: talk about the trend, not the figure, and don't read out the model SKU name. The real analysis takes longer than this edited recording. Insights in Foundry is in public preview. If asked: zero-day lead time (1 trace), misjudged clarification (10), flight without policy check (4), policy hard gate (58), weak provenance (medium); insights-judge made 172 requests, about 3.9M tokens, about $36 estimated.
+-->
+
+---
+
+![bg contain](Slide22.png)
+
+<!-- 
+Image description: 
 Section divider with a "Make it better" label above the title "Measure the climb" and "The Model Loop" in large gradient text.
 
 Timing: 20 seconds
-Cumulative: 11:55
+Cumulative: 12:50
 
 -->
 
@@ -626,14 +651,14 @@ Pause on the slide for a beat before speaking.
 
 ---
 
-![bg contain](Slide22.png)
+![bg contain](Slide23.png)
 
 <!-- 
 Image description: 
 Slide titled "Caldova defines the hill: quality, cost and latency." A rising bar chart climbs from Baseline through Prompt tuning, Better context, Task decomposition, and Model routing to Optimized system. Alongside it, five optimization categories that can be applied one step at a time.
 
 Timing: 40 seconds
-Cumulative: 12:35
+Cumulative: 13:30
 
 -->
 
@@ -653,14 +678,14 @@ Walk the bars from left to right. This shows a method. Not every step will go up
 
 ---
 
-![bg contain](Slide23.png)
+![bg contain](Slide24.png)
 
 <!-- 
 Image description: 
 "Public preview" badge above the title "Rubric evaluator (define what 'good' means)." Three points on the left: "Right evals at the right time, automatically" (when you create an agent in Foundry, a context-aware rubric is generated to match your agent's domain and use case); "No more writing evals from scratch" (the system distills your agent context into an out-of-the-box rubric and test dataset); and "Seamless offline-to-online eval pipeline" (create, run in dev, graduate to production traces, repeat). On the right, a Foundry Evaluations screenshot of a rubric-based evaluator for contoso-travel, drafted from v1 traces, Insights findings, and guidance, then reviewed and locked by a person. Seven weighted dimensions: policy_gate_compliance (10), tool_grounding (6), numeric_reconciliation (6), partial_completion_handling (5), specificity_under_underspecification (4), clear_actionable_response (2), and general_quality (5). Overall score range 0 to 1; dimension score range 1 to 5.
 
 Timing: 40 seconds
-Cumulative: 13:15
+Cumulative: 14:10
 
 -->
 
@@ -680,14 +705,14 @@ Point to the weighted dimensions in the screenshot. Rubric Evaluator is in publi
 
 ---
 
-![bg contain](Slide24.png)
+![bg contain](Slide25.png)
 
 <!-- 
 Image description: 
 Slide titled "From agent response to quality score" with the subtitle "Define what good looks like, then score every interaction consistently," and a Preview badge. Left to right: a User prompt ("Book a car for Friday at 7:30pm"), the AI agent (calls the car rental tool), and the Response ("Confirmed: Friday 7:30 PM, Rental spot 34"). These feed the Rubric evaluator ("LLM judge reads your rubric and the response, including tool calls"), which produces a Scorecard: Intent recognition 5/5, Tool usage 5/5, Policy enforcement 5/5, Information gathering 4/5, Communication clarity 5/5, General quality 4/5. The final panel shows an Overall score of 94 percent, "weighted, with a written reason," and a Pass label.
 
 Timing: 30 seconds
-Cumulative: 13:45
+Cumulative: 14:40
 
 -->
 
@@ -707,14 +732,14 @@ Walk the slide from left to right. The score is a consistent measure, not absolu
 
 ---
 
-![bg contain](Slide25.png)
+![bg contain](Slide26.png)
 
 <!-- 
 Image description: 
 VS Code with Copilot Chat. Copilot confirms it saved the five Insights findings and moves to "Step 5: Build the scorecard," which runs infra/06-scorecard.sh. It explains the script drafts a rubric of about seven weighted dimensions with a pass threshold of 0.5, and asks for review in Foundry (Evaluations > Evaluators) before Step 6, because the scorecard is locked once v1 is scored.
 
-Timing: 60 seconds
-Cumulative: 14:45
+Timing: 75 seconds
+Cumulative: 15:55
 
 -->
 
@@ -726,24 +751,26 @@ We ask Copilot for help, and it gives us one script to run. Copilot wrote that s
 
 We could also have Copilot use a predefined skill instead. The Microsoft Foundry skill's "observe" workflow knows how to generate a rubric evaluator straight from the agent or its traces. Either way, we didn't need to know the evaluator API ahead of time, and if something breaks, Copilot helps us debug it.
 
-What comes back is seven weighted dimensions. And right at the top, with the highest weight, is policy-gate compliance. No surprise. That's the issue Insights found across fifty-eight traces, and the reason Krystal's booking failed.
+What comes back is seven weighted dimensions, each scored one to five, rolled up into one overall score. And you can see Insights all over it. Right at the top, with the highest weight, is policy-gate compliance: only treat an option as allowed when the policy tool clearly supports it. That's our fifty-eight traces, and the reason Krystal's booking failed. Tool grounding: don't invent rules or prices. Specificity: don't make up a missing booking lead time. Every dimension reads like a lesson from those traces.
 
-Before we use it, we review it in Foundry. Once we score the first version, the rubric is locked, so every later step is measured the same way.
+And at the bottom, general quality. It's always applied, as a catch-all for anything the other dimensions miss.
+
+Before we use it, a person reviews it in Foundry. Once we score the first version, the rubric is locked, so every later step is measured the same way.
 
 Presenter Guidance:
-Play CLIP06-RUBRICS. Keep src/scripts/build_scorecard.py open in case you want to show the SDK call (begin_create_generation_job, around line 142). Pause on the dimensions and point to policy_gate_compliance at the top. Rubric Evaluator is in public preview.
+Play CLIP06-RUBRICS (1:07). Keep src/scripts/build_scorecard.py open in case you want to show the SDK call (begin_create_generation_job, around line 142). On the evaluator page, point to policy_gate_compliance (weight 10) at the top, then tool_grounding and specificity_under_underspecification as the links back to Insights, then general_quality marked "Always applicable." Rubric Evaluator is in public preview. If asked: weights 10, 6, 6, 5, 4, 2, 5; overall score 0–1, each dimension 1–5; evaluated per turn and per conversation. The judge model is gpt-5.4-mini, a smaller model, which keeps scoring cheap. The script also saves the rubric as a JSON file under .azure/<env>/scorecard/, so it can be reviewed in the repo as well as in Foundry. Datasets: 108 exploring questions were run against v1 (36 easy, 36 medium, 36 hard); the exploring dataset uploaded for the rubric holds 36 of them; 24 separate testing questions are used for scoring.
 -->
 
 ---
 
-![bg contain](Slide26.png)
+![bg contain](Slide27.png)
 
 <!-- 
 Image description: 
 Slide titled "Where Rubric fits in the Foundry lifecycle," subtitle "Trace, evaluate, understand, optimize. Rubric is the evaluate step that defines success." A continuous-improvement circle runs clockwise through four cards: Trace ("What happened?" every step, tool call, and output captured, on any framework); Evaluate, highlighted ("Was it good?" rubric scores each response against your definition of quality, before release and in production); Understand ("Why did it happen?" per-dimension reasons and patterns across runs point to the fix); and Optimize ("How do I improve it?" revise instructions or tools, rerun the same rubric, compare to the baseline).
 
 Timing: 25 seconds
-Cumulative: 15:10
+Cumulative: 16:20
 
 -->
 
@@ -763,14 +790,14 @@ Trace the circle clockwise from Trace to Optimize. Evaluate is highlighted becau
 
 ---
 
-![bg contain](Slide27.png)
+![bg contain](Slide28.png)
 
 <!-- 
 Image description: 
 VS Code with Copilot Chat. After a checkpoint ("this is your last chance to change the scorecard"), Copilot shows "Next: Step 6, score v1" with the command bash infra/07-score.sh run --label v1. It explains that the step asks v1 the 24 testing questions, grades each answer with the scorecard, and takes about 5–7 minutes per round. For a steadier baseline, it suggests two more rounds with --repeats 2, then shows how to view the combined v1 row.
 
-Timing: 90 seconds
-Cumulative: 16:40
+Timing: 115 seconds
+Cumulative: 18:15
 
 -->
 
@@ -780,26 +807,26 @@ Copilot gives us one last checkpoint. This is our final chance to change the rub
 
 Then it gives us the command to score version one. The agent answers twenty-four testing questions it hasn't seen before, and the rubric grades every answer.
 
-And we don't do this just once. Agents don't give the same answer every time, so we run three rounds and average them. That gives us a baseline we can trust, not one lucky or unlucky run.
+And we don't do this just once. Agents don't give the same answer every time. Look at the three rounds: the pass rate moves a few points from one round to the next. So we average them. That gives us a baseline we can trust, not one lucky or unlucky run.
 
-As the results come in, we can open any response and see the score for each dimension. Here's one that passed, with the reason behind each score. And here's one that failed, and we can see exactly where it fell short.
+As the results come in, we can open any response and see the score for each dimension, with the judge's reason. Here's one that passed: a flight search with no matches, and the agent said so without making anything up. Policy-gate compliance doesn't even apply here, so the rubric marks it "not applicable" instead of guessing. And here's one that failed. The lowest score? Policy-gate compliance, one out of five. The same problem Insights found, now measured.
 
 So here's our baseline: a quality score of 0.70 and a 90 percent pass rate. And for the first time, Andre's question mark has a number. This is the bottom of the hill. Every step from here gets compared with this.
 
 Presenter Guidance:
-Play CLIP07-SCORE. The passing example is the Seattle flights request (Pass 0.750); the failing example is the Toronto request (Fail 0.289). Leave the final scorecard visible for a beat. The 24 testing questions are separate from the questions used to build the rubric. The clip is sped up; one round takes about 5–7 minutes.
+Play CLIP07-SCORE (1:47). The passing example is the Seattle flights request (Pass 0.750); the failing example is the Toronto request (Fail 0.289). Leave the final scorecard visible for a beat. The 24 testing questions are separate from the questions used to build the rubric. The clip is sped up; one round takes about 5–7 minutes. If asked: the three v1 rounds passed 92%, 92%, and 88% (average 90%). We run three rounds for the baseline; later versions use two rounds to save time and tokens, though three is always an option.
 -->
 
 ---
 
-![bg contain](Slide28.png)
+![bg contain](Slide29.png)
 
 <!-- 
 Image description: 
 Banner reading "Keep evaluations standard if you start outside Foundry" above the title "ASSERT: open evaluation for any agent," subtitle "Evaluate agents against your standards, on any framework." A text panel explains that ASSERT is an open-source, policy-driven evaluation toolkit from the responsibleai project: encode what "good" means for your domain as explicit pass/fail criteria, then apply it across 33+ frameworks and custom stacks. Three cards: Your standards (your own requirements and pass/fail criteria, not platform-defined scores); Any framework (33+ frameworks and custom stacks, no lock-in); and Transparent (open-source logic you can inspect, extend, and contribute to). Footer: "Foundry evaluators + ASSERT = one standard, anywhere."
 
 Timing: 30 seconds
-Cumulative: 17:10
+Cumulative: 18:45
 
 -->
 
@@ -817,14 +844,14 @@ Keep it brief. This slide is about portability; the demo stays in Foundry.
 
 ---
 
-![bg contain](Slide29.png)
+![bg contain](Slide30.png)
 
 <!-- 
 Image description: 
 Slide titled "Krystal's one request hides five different model jobs." A two-column table, "Job" and "What the model actually needs": 1. Route the intent (fast classifier, cheap, no creativity); 2. Read the receipt image (vision, structured extraction); 3. Answer policy, "can I expense parking?" (grounded in Caldova travel policy); 4. Plan the trip and call tools (strong reasoning, longer context, tool use); 5. Translate French confirmation email (multilingual, short form). Banner: "There is no single model that's best for all five."
 
 Timing: 35 seconds
-Cumulative: 17:45
+Cumulative: 19:20
 
 -->
 
@@ -846,14 +873,14 @@ Pause after "What could that be?" Point to the three rows you mention; let the s
 
 ---
 
-![bg contain](Slide30.png)
+![bg contain](Slide31.png)
 
 <!-- 
 Image description: 
 Slide titled "Many cost optimization levers. Let's pick one." Ten vertical sliders, each with an icon and a short caption: 3 inference tiers (price-performance by workload); Model router, highlighted (guide model selection); Batch inference (best for async workloads); Structured outputs (reduce wasted tokens); Prompt caching (skip repeated inference); Semantic caching (reduce redundant calls); Small model + distillation (frontier quality, lower cost); AI Gateway (govern APIs, models, agents); Token budgets (set task-based token ceilings); and Prompt optimization (cut token waste, improve quality).
 
 Timing: 30 seconds
-Cumulative: 18:15
+Cumulative: 19:50
 
 -->
 
@@ -873,14 +900,14 @@ Don't explain every lever. Point to the highlighted Model Router column. Distill
 
 ---
 
-![bg contain](Slide31.png)
+![bg contain](Slide32.png)
 
 <!-- 
 Image description: 
 Demo divider reading "Demo: Measure & Optimize the Model Strategy," with the subtitle "Approved rubric · Model Router · Trace-based distillation," over a blue and violet ribbon graphic. Andre's photo sits in the lower left beside a "Make it better" label.
 
 Timing: 15 seconds
-Cumulative: 18:30
+Cumulative: 20:05
 
 -->
 
@@ -893,27 +920,27 @@ We have an approved rubric and a baseline. Now let's swap in Model Router, and t
 Same rubric, same questions, one change. Let's see where it takes us.
 
 Presenter Guidance:
-Keep it quick. Have CLIP08-ROUTER-1 ready on the next slide. The subtitle lists trace-based distillation: it isn't in the recorded demo, but the session repo includes the lab (infra/09-fine-tune.sh) for anyone who wants to try it.
+Keep it quick. Have CLIP08-ROUTER-DEFAULT ready on the next slide. The subtitle lists trace-based distillation: it isn't in the recorded demo, but the session repo includes the lab (infra/09-fine-tune.sh) for anyone who wants to try it.
 -->
 
 ---
 
-![bg contain](Slide32.png)
+![bg contain](Slide33.png)
 
 <!-- 
 Image description: 
 VS Code with Copilot Chat at "Next: Step 7, build and score v2 with Model Router," with the command bash infra/08-model-router.sh. Copilot explains that this deploys contoso-travel version 2 with the same code, tools, and instructions as v1, but with the model set to model-router, so the router picks a model for each request. It takes about a minute, and the portal stays on v1. It then shows how to score v2 the same way as v1 (07-score.sh run --label v2, two more rounds with --repeats 2, then compare). A "What to watch" note says to check whether policy_gate_compliance drops along with the overall score.
 
-Timing: 90 seconds
-Cumulative: 20:00
+Timing: 65 seconds
+Cumulative: 21:10
 
 -->
 
 <!--
 Speaker notes:
-Copilot gives us the next command. It deploys version two: same code, same tools, same instructions. The only change is the model, which is now Model Router. And the portal stays on version one, so Krystal isn't affected while we experiment.
+Copilot gives us the next command. It deploys version two: same code, same tools, same instructions. The only change is the model, which is now Model Router, in its default, balanced mode. And the portal stays on version one, so Krystal isn't affected while we experiment.
 
-Then we score it exactly the way we scored version one. Same questions, same rubric, three rounds.
+Then we score it the way we scored version one. Same questions, same rubric. This time two rounds, to save time and tokens.
 
 So, did we move uphill? Not really. Overall quality is about the same. A little better on medium questions, a little worse on the hard ones. And it's slower, and uses more tokens.
 
@@ -924,19 +951,19 @@ What hasn't moved is policy-gate compliance, our weakest dimension. Which makes 
 So cheaper, but not better. That's exactly why we measure every step.
 
 Presenter Guidance:
-Play CLIP08-ROUTER-1. Talk about the trend, not the exact numbers. Pause on the comparison table (quality flat, hard questions down, policy_gate_compliance unchanged), then show the Monitor tab's cost breakdown by model. If asked: v1 0.70 / 90% vs v2 0.68 / 87%; tokens per answer up 44%; P50 latency 10.0 s to 14.4 s.
+Play CLIP08-ROUTER-DEFAULT (0:50). Talk about the trend, not the exact numbers. Pause on the comparison table (quality flat, hard questions down, policy_gate_compliance unchanged), then show the Monitor tab's cost breakdown by model. If asked: v1 0.70 / 90% vs v2 0.68 / 87%; tokens per answer up 44%; P50 latency 10.0 s to 14.4 s.
 -->
 
 ---
 
-![bg contain](Slide33.png)
+![bg contain](Slide34.png)
 
 <!-- 
 Image description: 
 VS Code with Copilot Chat showing a comparison table for v1 (gpt-5.4) and v2 (Model Router, Balanced): overall score, pass rate, scores by difficulty, and per-dimension rubric scores. The clip continues with a v2-quality run using a second Model Router deployment set to prioritize quality, a three-way comparison table (v1, v2 Balanced, v2-quality), and the model-router-quality Monitor tab in Foundry showing estimated cost by model.
 
-Timing: 75 seconds
-Cumulative: 21:15
+Timing: 70 seconds
+Cumulative: 22:20
 
 -->
 
@@ -955,19 +982,19 @@ So is it good enough? Not quite. Fewer answers pass than with version one, and t
 Model Router gets us close. But paying for bigger models is an expensive way to fix a policy problem. The problem starts in the instructions. So let's fix those next, and then come back to Model Router to see what it can do for cost.
 
 Presenter Guidance:
-Play CLIP08-ROUTER-2. Land the trade-off: quality up, cost up. Talk about the trend, not the exact numbers. In the Monitor tab's cost breakdown, almost all of quality mode's spend goes to one larger model, while balanced mode mixed in smaller ones. Point to the shape of the bar; don't read out the model SKU names. If asked: v2-quality 0.72 average and 85% pass rate (v1 0.70 / 90%); policy_gate_compliance 3.81 (v1 3.52); P95 latency 41.4 s (v1 17.9 s); estimated cost $2.03 vs $0.75 for balanced mode.
+Play CLIP09-ROUTER-QUALITY (0:55). Land the trade-off: quality up, cost up. Talk about the trend, not the exact numbers. In the Monitor tab's cost breakdown, almost all of quality mode's spend goes to one larger model, while balanced mode mixed in smaller ones. Point to the shape of the bar; don't read out the model SKU names. If asked: v2-quality 0.72 average and 85% pass rate (v1 0.70 / 90%); policy_gate_compliance 3.81 (v1 3.52); P95 latency 41.4 s (v1 17.9 s); estimated cost $2.03 vs $0.75 for balanced mode.
 -->
 
 ---
 
-![bg contain](Slide34.png)
+![bg contain](Slide35.png)
 
 <!-- 
 Image description: 
 Slide titled "Model choice is only one part of the climb." Seven vertical sliders, each with an icon and caption: Prompt (shape behavior); Stored Completions + feedback (capture model interactions); RAG / Tool Calling (ground in data); DPO (align to preferred response); Fine-tune / RFT (adapt behavior) and Distillation (preserve quality, lower cost), highlighted together; and Custom Model Training (adapt to your domain).
 
 Timing: 30 seconds
-Cumulative: 21:45
+Cumulative: 22:50
 
 -->
 
@@ -985,14 +1012,14 @@ Point to the highlighted Fine-tune and Distillation columns; don't explain the o
 
 ---
 
-![bg contain](Slide35.png)
+![bg contain](Slide36.png)
 
 <!-- 
 Image description: 
 Slide titled "When is 'distillation' the right lever to try?" Two columns. "Use distillation when…": frontier baseline provides good traces; task and behavior are fairly stable; you have a good quality-filtered trace dataset; cheaper model can preserve frontier quality. "Do not distill yet when": you have no evaluation baseline; your task changes too frequently; your traces are sparse or low-quality; prompt or agent config is a known issue. Banner: "Contoso concierge: ✓ on all four."
 
 Timing: 30 seconds
-Cumulative: 22:15
+Cumulative: 23:20
 
 -->
 
@@ -1012,14 +1039,14 @@ Don't read both columns word for word. Land the last row on the right: "Prompt o
 
 ---
 
-![bg contain](Slide36.png)
+![bg contain](Slide37.png)
 
 <!-- 
 Image description: 
 Act 3 divider with a "Make it scale" label above the title "Automate the Optimization Loop," a blue circular-arrows icon, and "The Agent Optimizer" in large gradient text.
 
 Timing: 25 seconds
-Cumulative: 22:40
+Cumulative: 23:45
 
 -->
 
@@ -1037,14 +1064,14 @@ Pause on the slide for a beat before speaking. Lydia is back in the story here; 
 
 ---
 
-![bg contain](Slide37.png)
+![bg contain](Slide38.png)
 
 <!-- 
 Image description: 
 Slide titled "The optimization loop – on production traces," subtitle "Six steps, repeated as your agent and your data evolve." Six cards connected by arrows: Evaluate baseline (score the current agent on traces and criteria to set a baseline); Generate candidates (read current prompts, skills, and tools, then propose candidate configurations); Evaluate candidates (test each candidate on the same evidence with the same criteria); Rank candidates (rank results and identify a set of strong options); Recommend best option (recommend the best configuration with the evidence behind it); and Review and deploy, highlighted (you review the recommendation and deploy the chosen version). "Repeat continuously" runs beneath the cards. Banner: "The optimizer never changes a production agent on its own. Every deployment is human-approved."
 
 Timing: 35 seconds
-Cumulative: 23:15
+Cumulative: 24:20
 
 -->
 
@@ -1064,14 +1091,14 @@ Walk the cards left to right, then land on the highlighted last card and the ban
 
 ---
 
-![bg contain](Slide38.png)
+![bg contain](Slide39.png)
 
 <!-- 
 Image description: 
 "Generally Available" badge above the title "Agent Optimizer," subtitle "Agents optimized to your goals, grounded in your production evidence." A text panel explains that Agent Optimizer improves deployed agents using what you already have: the agent configuration, production traces, and your success criteria. It reads the current prompts, skills, tools, and model, searches for better configurations, tests each candidate against the same evidence, and recommends the best version for you to review and deploy. Three cards: Better outcomes (improve quality and reliability against the evaluators you already trust); Lower cost (find more efficient configurations without giving up quality); and Faster iteration (automate the experiments that used to take a team weeks). Footer: "Data + evaluators + optimization = repeatable improvement."
 
 Timing: 15 seconds
-Cumulative: 23:30
+Cumulative: 24:35
 
 -->
 
@@ -1087,14 +1114,14 @@ Deliver the three cards as one line and let the slide carry the detail. Agent Op
 
 ---
 
-![bg contain](Slide39.png)
+![bg contain](Slide40.png)
 
 <!-- 
 Image description: 
 Slide titled "What it optimizes, what we provide," subtitle "The whole agent system, not just the prompt." A panel shows an "Agents" bar above four blocks: Models, Tools, Prompts, and Skills. Below, "Inputs: what you already have" lists three: Agent configuration (prompts, skills, tools, retrieval instructions, model choice); Production evidence (traces, tool calls, user interactions, failures, latency; traces become the dataset); and Success criteria (rubrics, evaluators, LLM-as-judge, human feedback, quality goals).
 
 Timing: 30 seconds
-Cumulative: 24:00
+Cumulative: 25:05
 
 -->
 
@@ -1112,14 +1139,14 @@ Point to the three inputs and connect each one to something the audience has alr
 
 ---
 
-![bg contain](Slide40.png)
+![bg contain](Slide41.png)
 
 <!-- 
 Image description: 
 Demo divider reading "Demo: Automate with Agent Optimizer," with the subtitle "Production Insights, Evaluate Candidates, Promote Winner," over a blue and violet ribbon graphic. Lydia's photo sits in the lower left beside a "Let's iterate faster!" label.
 
 Timing: 20 seconds
-Cumulative: 24:20
+Cumulative: 25:25
 
 -->
 
@@ -1137,14 +1164,14 @@ Keep it quick. Have CLIP10-OPTIMIZER ready on the next slide. The skill is the "
 
 ---
 
-![bg contain](Slide41.png)
+![bg contain](Slide42.png)
 
 <!-- 
 Image description: 
 VS Code with Copilot Chat. A results table shows the v1 baseline row (72 rows scored, mean 0.70, pass rate 90%, easy 0.72, medium 0.69). Copilot gives the commands bash infra/10-optimize.sh submit --from-label v1 and bash infra/10-optimize.sh status. It explains why to start from v1 (still the best pass rate and the cheapest version), that the optimizer creates up to three candidate instruction sets as drafts so no versions or the portal change, and that it uses the scorecard to judge them. "What to look for in the candidates" lists rules that address the Insights findings: "Only call something compliant when the policy tool returns a decision with rule IDs" (the top finding, 58 traces) and "Call the policy check for every option before recommending it" (flight recommended without a policy check).
 
-Timing: 120 seconds
-Cumulative: 26:20
+Timing: 130 seconds
+Cumulative: 27:35
 
 -->
 
@@ -1163,19 +1190,19 @@ It does use more tokens, because the instructions are longer and more careful. B
 So now we have version three: better instructions, clearly better quality. And that brings us back to our plan. What happens if we combine these better instructions with Model Router? Can we bring the cost down too?
 
 Presenter Guidance:
-Play CLIP10-OPTIMIZER. Read the two candidate rules aloud; they tie directly back to the Insights findings from Act 1. Pause on the score comparison chart and let the audience see candidate 1 go backward before the winner. Talk about the trend, not the exact scores. If asked: baseline 0.712, candidate 1 0.676, candidate 2 0.72, candidate 3 0.774 (+0.062); average tokens 6.2K to 10K; average latency 14.2 s to 10.2 s. The optimizer's baseline score (0.712) differs slightly from our three-round v1 score (0.70) because it's a separate evaluation run. The clip is edited; cloud run time varies.
+Play CLIP10-OPTIMIZER (1:57). Read the two candidate rules aloud; they tie directly back to the Insights findings from Act 1. Pause on the score comparison chart and let the audience see candidate 1 go backward before the winner. Talk about the trend, not the exact scores. If asked: baseline 0.712, candidate 1 0.676, candidate 2 0.72, candidate 3 0.774 (+0.062); average tokens 6.2K to 10K; average latency 14.2 s to 10.2 s. The optimizer's baseline score (0.712) differs slightly from our three-round v1 score (0.70) because it's a separate evaluation run. The clip is edited; cloud run time varies.
 -->
 
 ---
 
-![bg contain](Slide42.png)
+![bg contain](Slide43.png)
 
 <!-- 
 Image description: 
-VS Code with the terminal on the left and Copilot Chat on the right. The terminal shows bash infra/11-promote.sh router running a smoke test: the agent identifies the employee's booking lead-time policy, checks Caldova travel policy, and states that no applicable lead-time rule was returned rather than inventing one. Copilot Chat shows the v1 baseline row and "Next: Step 11b, v3's instructions on Model Router," with commands to promote v3's instructions onto model-router (Balanced) as v3-router, score it three rounds, and compare. Notes say what it tests, why it's worth trying (better instructions plus cheaper models could keep v3's quality while cutting the doubled token cost), and what to watch: the hard-question score, policy_gate_compliance, and cost per answer in the Monitor tab.
+VS Code with the terminal on the left and Copilot Chat on the right. The terminal shows bash infra/11-promote.sh router running a smoke test: the agent identifies the employee's booking lead-time policy, checks Caldova travel policy, and states that no applicable lead-time rule was returned rather than inventing one. Copilot Chat shows the v1 baseline row and "Next: Step 11b, v3's instructions on Model Router," with commands to promote v3's instructions onto model-router (Balanced) as v3-router, score it, and compare. Notes say what it tests, why it's worth trying (better instructions plus cheaper models could keep v3's quality while cutting the doubled token cost), and what to watch: the hard-question score, policy_gate_compliance, and cost per answer in the Monitor tab.
 
-Timing: 120 seconds
-Cumulative: 28:20
+Timing: 215 seconds
+Cumulative: 31:10
 
 -->
 
@@ -1185,9 +1212,9 @@ So, back to Model Router, just like we planned. Same idea as before: one change.
 
 Look at this quick test run. When the policy tool doesn't return a lead-time rule, the agent says so, instead of making one up. That's exactly the behavior Insights flagged in Act 1, now fixed.
 
-Then we score it the same way: same questions, same rubric, three rounds.
+Then we score it the same way: same questions, same rubric, two rounds.
 
-And this time, it works. This is our best version yet. Quality is up, and the pass rate is the highest we've seen. Policy-gate compliance, the problem Insights found at the very start, is clearly better than version one.
+And this time, it works. This is our best version yet. Quality is up, and the pass rate is the highest we've seen. Policy-gate compliance, the problem Insights found at the very start, is better than version one.
 
 Remember, on its own the router made things cheaper, but not better. With better instructions, it's a different story. Better instructions and the right models, working together.
 
@@ -1196,19 +1223,19 @@ It's not a free win. It uses more tokens than version one, and the slowest answe
 We didn't guess our way here. We followed the evidence, made one change at a time, and kept what moved us uphill.
 
 Presenter Guidance:
-Play CLIP11-OPTIMIZER-ROUTER. Point to the test-run output first: no invented lead-time rule. Then pause on the v1 / v3 / v3-router table. Talk about the trend, not the exact numbers; the final cost figures are on slide 46. Don't read the walkthrough comparison Copilot quotes (0.54); it comes from an earlier run. Don't quote the Monitor tab's total cost: the model-router deployment also includes v2's earlier runs. If asked: v1 0.70 / 90%, v3 0.72 / 94%, v3-router 0.73 / 96%; policy_gate_compliance 3.52 to 3.65; P50 latency 10.0 s to 9.6 s, P95 17.9 s to 22.3 s; tokens per answer about double v1.
+Play CLIP11-OPTIMIZER-ROUTER (3:24). This is the longest clip: let it run, and speak at the key moments rather than over all of it. Point to the test-run output first: no invented lead-time rule. Then pause on the v1 / v3 / v3-router table. Talk about the trend, not the exact numbers; the final cost figures are on slide 47. Don't read the walkthrough comparison Copilot quotes (0.54); it comes from an earlier run. Don't quote the Monitor tab's total cost: the model-router deployment also includes v2's earlier runs. If asked: v1 0.70 / 90%, v3 0.72 / 94%, v3-router 0.73 / 96%; policy_gate_compliance 3.52 to 3.65; P50 latency 10.0 s to 9.6 s, P95 17.9 s to 22.3 s; tokens per answer about double v1.
 -->
 
 ---
 
-![bg contain](Slide43.png)
+![bg contain](Slide44.png)
 
 <!-- 
 Image description: 
 Slide titled "Metrics improve at every stage of the loop." A rising bar chart with four bars: Baseline (0.7 | 90%), + Agent Optimizer (0.72 | 94%), + Model Router (0.73 | 96%), and + Fine-Tuning (the tallest bar, with a "NEXT STEP" label instead of figures). A dashed target line marks "Pass Rate > 95%, Quality Score > 0.71"; only the Model Router and Fine-Tuning bars rise above it.
 
 Timing: 40 seconds
-Cumulative: 29:00
+Cumulative: 31:50
 
 -->
 
@@ -1220,7 +1247,7 @@ We started at our baseline, below Caldova's targets. Agent Optimizer fixed the i
 
 And not every step made it onto this chart. Our two router-only experiments didn't get promoted. But they told us where the real problem was.
 
-And the climb doesn't stop here. Remember distillation? Now we have a teacher worth learning from. That's the next step. The session repo has the lab and our results, so you can try it yourself.
+And the climb doesn't stop here. Remember distillation? Now we have a teacher worth learning from. That's the next step. The session repo has the lab and our results, so you can try it yourself. And the same goes for the model behind Insights: it's one more part of the system we can tune.
 
 That's hill climbing: one change at a time, measured every time.
 
@@ -1230,14 +1257,14 @@ Walk the bars left to right and point to the dashed target line. Present the Fin
 
 ---
 
-![bg contain](Slide44.png)
+![bg contain](Slide45.png)
 
 <!-- 
 Image description: 
 Section divider reading "Summary & next steps" over translucent blue and violet ribbon shapes.
 
 Timing: 15 seconds
-Cumulative: 29:15
+Cumulative: 32:05
 
 -->
 
@@ -1253,14 +1280,14 @@ Pause on the slide for a beat before speaking.
 
 ---
 
-![bg contain](Slide45.png)
+![bg contain](Slide46.png)
 
 <!-- 
 Image description: 
 Roadmap slide titled "Caldova and Contoso's agent optimization journey revisited." Setting the challenge (what does Caldova need, what must Contoso prove?); Make it work (build, deploy, and observe the agent with a frontier model, get optimization insights), paired with Agent Loop, Demo: Build with Copilot; Make it better (define the rubric, establish the baseline, then right-size the model to the task and start climbing), paired with Model Loop, Demo: Optimize with Copilot; Make it scale (use production evidence and automate candidate evaluation to accelerate the climb), paired with Agent Optimizer, Demo: Optimize with Foundry; and Takeaways (turn your hill-climbing journey into a repeatable AgentOps playbook).
 
 Timing: 50 seconds
-Cumulative: 30:05
+Cumulative: 32:55
 
 -->
 
@@ -1282,14 +1309,14 @@ Walk the three rows top to bottom, one persona per row. End on the question to s
 
 ---
 
-![bg contain](Slide46.png)
+![bg contain](Slide47.png)
 
 <!-- 
 Image description: 
 Andre's photo above an "Andre's A-Ha Moment" label. A large animated figure changes from $11,400 to $5,982, captioned "Modeled annual costs for concierge (48% less)." Three figures below: Avg Cost Per Request $0.010, Requests per month 50,000, and Quality: measured (0.73 quality, 96% pass rate).
 
 Timing: 40 seconds
-Cumulative: 30:45
+Cumulative: 33:35
 
 -->
 
@@ -1309,14 +1336,14 @@ Let the number animate before you speak. These figures were calculated with Copi
 
 ---
 
-![bg contain](Slide47.png)
+![bg contain](Slide48.png)
 
 <!-- 
 Image description: 
 Slide titled "Build with Microsoft Agent Platform," subtitle "Build in GitHub · Run and optimize in Foundry · Reach users everywhere work gets done." Left: "Build in GitHub" (code, prompts, skills + tools, eval definitions), with an arrow into a central "Governed agent lifecycle" box. Inside it, "Run in Foundry: optimize models, prompts, skills, and tools," with Agent runtime (plan / act / observe, host & scale) and Evaluate & Optimize (routing + RL, agents & eval signals) linked by a cycle icon, above an "AI Models – 11K models" bar and "Context with IQ – your enterprise knowledge." Beneath: "Powered by Azure – global scale, data zones, sovereign controls" and "Manage with Agent 365 – Observe, Secure, Govern, with Agent ID." Right: "Distribute to users" (M365 Copilot, Teams, Apps + APIs).
 
 Timing: 50 seconds
-Cumulative: 31:35
+Cumulative: 34:25
 
 -->
 
@@ -1338,14 +1365,14 @@ Follow the diagram left to right. Spend most of the time on the middle box. Dist
 
 ---
 
-![bg contain](Slide48.png)
+![bg contain](Slide49.png)
 
 <!-- 
 Image description: 
 Slide titled "Optimize the system, not just the prompt," subtitle "Build Your Agent Optimization Playbook." Five numbered rows: 1. Pick the model for the workload (define business targets across quality, cost, and latency); 2. Evaluate on your data (evaluate on representative data and production evidence); 3. Optimize the system (choose the right lever: models, prompts, skills, tools, or context); 4. Operate with control (compare optimized candidates and promote with control); 5. Continuously improve (monitor, revalidate, and repeat as the landscape changes). Banner: "Join the Community: https://aka.ms/foundry/discord."
 
 Timing: 45 seconds
-Cumulative: 32:20
+Cumulative: 35:10
 
 -->
 
@@ -1371,14 +1398,14 @@ Tie each row to a moment from the demo; don't read the right-hand column. Point 
 
 ---
 
-![bg contain](Slide49.png)
+![bg contain](Slide50.png)
 
 <!-- 
 Image description: 
 Closing slide reading "Visit the GitHub repository for today's presentation and other resources," with the short link aka.ms/aitour27/BRK330 in a blue pill, "...or scan the QR code," and a large QR code on the right, over a blue and violet ribbon graphic.
 
 Timing: 25 seconds
-Cumulative: 32:45
+Cumulative: 35:35
 
 -->
 
