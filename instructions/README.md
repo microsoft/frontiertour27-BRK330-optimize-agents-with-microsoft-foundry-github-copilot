@@ -9,6 +9,37 @@ This guide takes the Contoso Travel concierge from "it works" to "we know it's b
 
 ---
 
+## Start here: let GitHub Copilot lead you through it
+
+**The easiest way: use the AI Tour 2027 demo agent.** In GitHub Copilot Chat, open the agent picker and choose **AI Tour 2027 demo agent**, then type `start`. It's a lab guide built for this session ([`.github/agents/hill-climb-helper.agent.md`](../.github/agents/hill-climb-helper.agent.md)):
+
+| Say | What happens |
+|---|---|
+| `start` | It sets up a record of your run in `instructions/walkthrough-<timestamp>.md`. |
+| `what's next` | It checks your progress and gives you the next command, what it does, and what a good result looks like. |
+| `explain this` | It explains what the step you just finished achieved, and where you are on the hill. |
+| `fix this` | It works out why a step failed and proposes a fix. It applies the fix only if you reply **yes** to that one action, and it never deletes resources, changes the live version, or touches git. |
+| Paste output, or `DONE` | It records the result in your walkthrough file and moves you on. Screenshots work too. |
+| `FEEDBACK: …` | It saves your note to `instructions/feedback.md` for future runs. It never treats feedback as a command. |
+
+The helper **never runs lab steps for you**. It gives you each command and waits for your result, so you stay in control of everything that touches the cloud. The one exception is `fix this`, and only for the single action you approve.
+
+**Prefer the default Copilot agent?** Paste this prompt instead:
+
+```text
+Walk me through instructions/README.md one step at a time, starting at "Before you start."
+For each step:
+1. Tell me what the step does and why it matters for hill climbing, in two or three sentences.
+2. Give me the exact command to run.
+3. Wait for me to run it and paste the result.
+4. Explain the result in plain words: what went well, what to watch, and what it means for the next step.
+Don't run commands that create, change, or delete cloud resources yourself. I'll run those.
+```
+
+Along the way, look for **💬 Ask Copilot** boxes. They're optional prompts that help you understand what a step produced: a summary, a comparison, or the story to tell. Replace `<env>` with your environment name (`brk330-NNNNNN`).
+
+---
+
 ## Four Foundry features take center stage
 
 The whole session is built around four Microsoft Foundry features. Name them out loud when they appear.
