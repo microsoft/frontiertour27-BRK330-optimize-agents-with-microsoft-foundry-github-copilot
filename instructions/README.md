@@ -5,26 +5,19 @@
 This guide takes the Contoso Travel concierge from "it works" to "we know it's better, and we can keep making it better." Every step uses real Microsoft Foundry resources, so the results you see are your own.
 
 > [!NOTE]
-> **Want to see what a real run looked like?** [Learning journey 1](walkthrough-journey-1.md) records a full run in East US 2: the results, numbers, and talking points, plus the bugs that run found and fixed. Your run starts with those fixes in place, so your numbers will differ.
+> **Want to see the whole story first?** The [slides and demo clips](../delivery-resources/README.md) walk through a complete run, from the first build to the final comparison. To browse the deck with its speaker notes, run this from the repository root and open the link it prints. In Codespaces, the forwarded port opens in your browser:
+>
+> ```bash
+> npx @marp-team/marp-cli@latest --server delivery-resources/slides
+> ```
+>
+> Then select `index.md`. Press `P` in the deck to open the presenter view with notes.
 
 ---
 
 ## Start here: let GitHub Copilot lead you through it
 
-**The easiest way: use the AI Tour 2027 demo agent.** In GitHub Copilot Chat, open the agent picker and choose **AI Tour 2027 demo agent**, then type `start`. It's a lab guide built for this session ([`.github/agents/hill-climb-helper.agent.md`](../.github/agents/hill-climb-helper.agent.md)):
-
-| Say | What happens |
-|---|---|
-| `start` | It sets up a record of your run in `instructions/walkthrough-<timestamp>.md`. |
-| `what's next` | It checks your progress and gives you the next command, what it does, and what a good result looks like. |
-| `explain this` | It explains what the step you just finished achieved, and where you are on the hill. |
-| `fix this` | It works out why a step failed and proposes a fix. It applies the fix only if you reply **yes** to that one action, and it never deletes resources, changes the live version, or touches git. |
-| Paste output, or `DONE` | It records the result in your walkthrough file and moves you on. Screenshots work too. |
-| `FEEDBACK: …` | It saves your note to `instructions/feedback.md` for future runs. It never treats feedback as a command. |
-
-The helper **never runs lab steps for you**. It gives you each command and waits for your result, so you stay in control of everything that touches the cloud. The one exception is `fix this`, and only for the single action you approve.
-
-**Prefer the default Copilot agent?** Paste this prompt instead:
+We encourage you to open GitHub Copilot Chat and ask the default agent to help you run the workshop step by step. Paste this prompt to get started:
 
 ```text
 Walk me through instructions/README.md one step at a time, starting at "Before you start."
@@ -101,7 +94,7 @@ Map it to the acts:
 | 3. Make it better | Build the altimeter (the Rubric Evaluator scorecard), measure v1, take two single steps (v2, v2-alt), and keep the one that goes up. |
 | 4. Make it scale | Let the optimizer take steps for you, then check each one with the same altimeter before you move. |
 
-> **Expect to walk down before you walk up.** In our first run, four steps went down or sideways before the fifth went up. That's normal. Each step down tells you where not to go, and points to the next thing to try. [Learning journey 1's climb chart](walkthrough-journey-1.md#the-climb-step-by-step) shows it.
+> **Expect to walk down before you walk up.** In the run shown in the deck, both Model Router experiments fell short before Agent Optimizer moved the score up. That's normal. Each step down tells you where not to go, and points to the next thing to try.
 
 ---
 
@@ -175,7 +168,7 @@ contoso-travel (the agent)
 
 - An Azure subscription with billing, and permission to create resources and assign roles.
 - Quota in **East US 2** for the five models setup deploys. Setup checks this before creating anything; see [`infra/README.md`](../infra/README.md#models-and-capacity). Quota is often shared with other teams, so check close to your run. The tightest one is usually `gpt-5.6-sol` for the Insights judge, which needs 500.
-- Agent Optimizer preview access for Act 4.
+- Agent Optimizer for Act 4. It's generally available, so no preview sign-up is needed.
 - This repo open in GitHub Codespaces or the dev container.
 
 Run every command from the repository root. Everything these scripts make (answers, traces, review sheets, scores, job IDs) is saved under `.azure/<environment>/`, which is never committed.
@@ -281,7 +274,7 @@ This starts one Insights run over the last 3 hours of traces, using the `insight
 ### During the session
 
 1. In Foundry, open **contoso-travel → Traces**. Pick one HERO trace and walk through it: the tool calls, the policy check, the booking attempt, and what came back.
-2. Open **Insights**. Read the findings aloud and point out how many traces each one covers. The [walkthrough](walkthrough-journey-1.md#step-4-let-insights-read-the-traces) shows six findings from a full run, led by "absence of a policy block was misinterpreted as affirmative authorization" across 45 traces.
+2. Open **Insights**. Read the findings aloud and point out how many traces each one covers.
 
    Your wording may differ. Report what *your* run found.
 3. Show the summary from step 3 (`.azure/<env>/questions/exploring-v1-*.md`): how speed and tokens grow from easy to hard questions.
@@ -347,13 +340,13 @@ bash infra/08-model-router.sh --mode quality
 bash infra/07-score.sh run --label v2-quality
 ```
 
-This creates a second router deployment, `model-router-quality` (capacity 300), and one agent version that uses it, labeled **v2-quality**. It's still one change from v1: only the model choice. See [walkthrough step 7](walkthrough-journey-1.md#step-7-build-and-score-v2-with-model-router) for why we tried it.
+This creates a second router deployment, `model-router-quality` (capacity 300), and one agent version that uses it, labeled **v2-quality**. It's still one change from v1: only the model choice.
 
 #### Step 8. Build and score v2-alt, the fine-tuned smaller model
 
 This one has a few steps because a person has to approve what the model learns from.
 
-> **Pick the teacher first.** A student can only be as good as the answers it learns from. If v1's main weakness is in its instructions (as in our run, where booking evidence scored about 2/5 on every model), few of v1's hard answers will pass review, and the student learns mostly easy cases. In that case, do Act 4 first and use the improved **v3** as the teacher: add `--teacher-label v3` to `generate`, and the student becomes **v3-student** instead of v2-alt. Later phases remember the teacher.
+> **Pick the teacher first.** A student can only be as good as the answers it learns from. If v1's main weakness is in its instructions, few of v1's hard answers will pass review, and the student learns mostly easy cases. In that case, do Act 4 first and use the improved **v3** as the teacher: add `--teacher-label v3` to `generate`, and the student becomes **v3-student** instead of v2-alt. Later phases remember the teacher.
 >
 > **Then check how the teacher used its tools.** The review sheet lists `tools_called` for every answer. If many answers fail for the same tool reason (an empty search that shouldn't be empty, a price the agent couldn't look up), fix the tools first, build **v3-tools** (Act 4, step 7), and teach from that: `--teacher-label v3-tools`. A student copies its teacher's workarounds along with its answers.
 
@@ -434,7 +427,7 @@ You get two tables. The first shows each version's average score, its change fro
 
 #### Step 10. Let Agent Optimizer try instruction changes
 
-Start from the best-scoring version in Act 3. In our run that was v1 (see the [walkthrough](walkthrough-journey-1.md#step-10-let-agent-optimizer-try-instruction-changes)):
+Start from the best-scoring version in Act 3. In the run shown in the deck, that was v1:
 
 ```bash
 bash infra/10-optimize.sh submit --from-label v1
@@ -469,7 +462,7 @@ The job runs in Foundry, so you can close the terminal and come back. You'll als
    bash infra/10-optimize.sh apply --candidate <candidate-id>
    ```
 
-   Open `src/agent/.agent_configs/<candidate-id>/instructions.md` next to `src/agent/.agent_configs/baseline/instructions.md` and talk through what changed. Ask out loud: does this make sense for Caldova? Would I sign off on this? A good check: **which Insights findings does this change address?** (The walkthrough has a [checklist](walkthrough-journey-1.md#which-insights-findings-the-optimizer-can-address).)
+   Open `src/agent/.agent_configs/<candidate-id>/instructions.md` next to `src/agent/.agent_configs/baseline/instructions.md` and talk through what changed. Ask out loud: does this make sense for Caldova? Would I sign off on this? A good check: **which Insights findings does this change address?**
 
    > 💬 **Ask Copilot (optional):** *"Compare `src/agent/.agent_configs/<candidate-id>/instructions.md` with `src/agent/.agent_configs/baseline/instructions.md`. List what changed, which findings in `.azure/<env>/insights/findings.json` each change addresses, which findings are still open, and whether any examples were copied from the practice questions."*
 3. Turn it into **v3** and retest it on the testing questions:
@@ -530,7 +523,7 @@ The job runs in Foundry, so you can close the terminal and come back. You'll als
    bash infra/07-score.sh compare
    ```
 
-   Versions already built keep the tools they were deployed with, so earlier scores stay valid. If v3-tools holds up, use it as the fine-tuning teacher (step 8 with `--teacher-label v3-tools`). The [walkthrough](walkthrough-journey-1.md#round-2-the-teacher-review-found-our-tool-bugs) shows the four tool gaps our run found this way.
+   Versions already built keep the tools they were deployed with, so earlier scores stay valid. If v3-tools holds up, use it as the fine-tuning teacher (step 8 with `--teacher-label v3-tools`).
 
    > 💬 **Ask Copilot (optional):** *"Look through `.azure/<env>/questions/` for answers where a search came back empty or a total couldn't be worked out. Check each against `data/fixtures/`: is the agent wrong, or is a tool or the data missing something?"*
 
