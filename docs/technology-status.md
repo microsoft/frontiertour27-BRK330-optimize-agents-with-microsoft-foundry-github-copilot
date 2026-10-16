@@ -19,7 +19,7 @@ Status last verified against current Microsoft documentation and a live learner-
 | [`gpt-4.1-mini` fine-tuning](https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/fine-tuning) | Live East US 2 catalog: Legacy, Responses/Agents v2 support, `globalFineTune` and `devTierFineTune`, retirement April 14, 2027 | Act 3 lever v2-alt: supervised student base through the December 2026 delivery. Revalidate immediately before training. |
 | Foundry Fine Tuning azd extension | `azure.ai.finetune` `0.0.17-preview`; output and config contracts remain preview | Submit, inspect, and deploy the v2-alt student. |
 | Synthetic and traces-to-dataset generation | Rollout and regional availability vary; verify the target tenant | Optional acceleration for Demo 2 data curation; versioned manual provenance remains the fallback. |
-| [Agent Optimizer](https://learn.microsoft.com/en-us/azure/foundry/agents/quickstarts/quickstart-optimize-hosted-agent) | **Preview**; current quickstart requires subscription allow-list | Act 4: proposes instruction changes from practice questions; a person reviews, retests, and promotes v3. |
+| [Agent Optimizer](https://learn.microsoft.com/en-us/azure/foundry/agents/quickstarts/quickstart-optimize-hosted-agent) | Generally available | Act 4: proposes instruction changes from practice questions; a person reviews, retests, and promotes v3. |
 | Azure Container Apps | Generally available | Persistent FastAPI behavior surface across sequential agent versions. |
 
 ## Delivery rule

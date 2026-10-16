@@ -300,7 +300,7 @@ So how does Contoso deliver it? With one connected platform for code and agents:
 
 They build with GitHub Copilot, run in Foundry, and then improve continuously with Foundry's agent ops tools.
 
-Grounding and governance are covered in other AI Tour sessions, so today we'll focus on build, run, and improve.
+Grounding and governance are covered in other Frontier Tour sessions, so today we'll focus on build, run, and improve.
 
 Presenter Guidance:
 Point to Build, Run, and Improve on the slide; skip Ground and Govern.
@@ -441,7 +441,7 @@ Have CLIP01-RUN ready on the next slide.
 
 <!-- 
 Image description: 
-VS Code screenshot. On the left, a README preview titled "Four Foundry features take center stage" lists Insights, Rubric Evaluator, Model Router, and Agent Optimizer. On the right, Copilot Chat walks through the guide step by step and is at "Step 1. Build everything," which runs infra/02-setup.sh.
+VS Code screenshot. On the left, a README preview titled "Four Foundry features take center stage" lists Insights, Rubric Evaluator, Model Router, and Agent Optimizer, with the act each appears in and where to find it in Foundry. Below it, the terminal runs bash infra/02-setup.sh and has reached step 4 of 12, "Provisioning core Azure resources," in eastus2. On the right, Copilot Chat walks through the guide step by step: preflight reported READY in eastus2, and it is now at "Step 1. Build everything," which runs infra/02-setup.sh.
 
 Timing: 70 seconds
 Cumulative: 7:30
@@ -468,7 +468,7 @@ Play CLIP01-RUN (1:07). Keep infra/02-setup.sh open in a VS Code tab in case you
 
 <!-- 
 Image description: 
-The Contoso Travel Concierge Portal, running v1 on gpt-5.4 as the baseline. Four sample scenarios: Paris trip plus parking receipt, attempt to bypass policy, French receipt evidence, and Montreal accessibility. Krystal's Paris request is loaded, with receipt fixtures REC-001 to REC-004 underneath and an empty "Recommendation and policy details" panel on the right.
+The Contoso Travel Concierge Portal ("Contoso travel for Caldova employees"), with the status line contoso-travel · v1 · gpt-5.4 · baseline. On the left, "Plan your business travel" offers four sample scenarios: HERO-01 Paris trip plus parking receipt, BLOCK-01 attempt to bypass policy, EVIDENCE-01 French receipt evidence, and ACCESS-01 Montreal accessibility. The "What do you need?" box is empty, with receipt fixtures REC-001 to REC-004 and a "Review travel request" button below. On the right, the "Recommendation and policy details" panel shows a Ready status and no results yet.
 
 Timing: 75 seconds
 Cumulative: 8:45
@@ -576,7 +576,7 @@ Land the contrast between specification and evidence. No clip on this slide; CLI
 
 <!-- 
 Image description: 
-VS Code with the terminal running bash infra/04-run-questions.sh: 108 of 108 exploring-question runs complete. Copilot Chat summarizes the results in a table by difficulty (easy, medium, hard; 36 questions each), with outcomes, latency, tokens, and tool use, and notes that the traces are now ready for Insights.
+VS Code with a maximized terminal running bash infra/04-run-questions.sh, asking contoso-travel v1 the 36 exploring questions three times each (108 runs) and writing results to a JSONL file. The run is in progress at 24 of 108. Each line shows a question ID (such as BLOCK-01, E-01 to E-20, EVIDENCE-01, HERO-01, and ACCESS-01), its outcome (blocked, unconfirmed, reimbursable, checked, not_booked, partial, or booked), and its duration in seconds.
 
 Timing: 35 seconds
 Cumulative: 11:10
@@ -585,7 +585,7 @@ Cumulative: 11:10
 
 <!--
 Speaker notes:
-Here are the questions going through, from simple lookups to tricky multi-step trips. Over a hundred of them: thirty-six each of easy, medium, and hard.
+Here are the questions going through, from simple lookups to tricky multi-step trips. Thirty-six questions, easy, medium, and hard, each asked three times. That's over a hundred runs.
 
 And every run lands in Traces, with its duration, tokens in and out, and estimated cost. That's the raw material Insights works from. So now, let's ask Foundry what it sees.
 
@@ -599,7 +599,7 @@ Play CLIP04-QUESTIONS (0:24). When the Traces list appears, point to the Duratio
 
 <!-- 
 Image description: 
-Microsoft Foundry, contoso-travel agent, Insights tab (preview). Five active insights are listed with category and severity: Invented zero-day booking lead time caused a false policy block (tool call failures, high); Misjudged when clarification was necessary and overstated search evidence (tool call failures, high); Flight recommended without mandatory policy check (tool call failures, high); Policy hard gate was treated as a procedural checkbox rather than an evidence-bearing gate (reliability errors, high); and Weak provenance control for structured-result qualifiers (output quality, medium). The selected insight shows a description, a linked-traces chart over time, and a highlighted traces table.
+VS Code. On the left, the terminal shows bash infra/04-run-questions.sh finished at 108 of 108 runs, followed by a summary table by group (easy, medium, hard; 36 asked and 36 answered each, 0 errors) with P50 and P95 latency, average tokens, average tool calls, and outcomes, and a note to wait a few minutes for traces before running Insights. On the right, Copilot Chat answers "what's next" with Step 4: let Insights read the v1 traces by running bash infra/05-insights.sh, with notes on what it does, what to expect (quoting an earlier run), and what to do if it fails with TooManyRequests. The clip then moves to the Foundry Insights tab (preview) for the contoso-travel agent, which lists five active insights with category and severity: Invented zero-day booking lead time caused a false policy block (tool call failures, high); Misjudged when clarification was necessary and overstated search evidence (tool call failures, high); Flight recommended without mandatory policy check (tool call failures, high); Policy hard gate was treated as a procedural checkbox rather than an evidence-bearing gate (reliability errors, high); and Weak provenance control for structured-result qualifiers (output quality, medium).
 
 Timing: 80 seconds
 Cumulative: 12:30
@@ -621,7 +621,7 @@ One more thing worth noticing. Insights itself runs on a model we deploy, and th
 So we made it work. And now we know exactly where its behavior falls short. Time to make it better.
 
 Presenter Guidance:
-Play CLIP05-INSIGHTS (1:02). Walk the insights list top to bottom: point to the category and severity on each, then the linked-traces chart and the highlighted traces table. Pause on the policy hard-gate insight and its 58 linked traces, and make the callback to the trace on slide 18. The recommended fixes aren't shown in the clip; mention them in one line. At the end of the clip, the insights-judge deployment's Monitor tab shows what the analysis itself cost: talk about the trend, not the figure, and don't read out the model SKU name. The real analysis takes longer than this edited recording. Insights in Foundry is in public preview. If asked: zero-day lead time (1 trace), misjudged clarification (10), flight without policy check (4), policy hard gate (58), weak provenance (medium); insights-judge made 172 requests, about 3.9M tokens, about $36 estimated.
+Play CLIP05-INSIGHTS (1:02). The opening frame shows Copilot quoting an earlier run (six findings, 45 traces); skip it. This run found five, led by the policy hard-gate insight. Walk the insights list top to bottom: point to the category and severity on each, then the linked-traces chart and the highlighted traces table. Pause on the policy hard-gate insight and its 58 linked traces, and make the callback to the trace on slide 18. The recommended fixes aren't shown in the clip; mention them in one line. At the end of the clip, the insights-judge deployment's Monitor tab shows what the analysis itself cost: talk about the trend, not the figure, and don't read out the model SKU name. The real analysis takes longer than this edited recording. Insights in Foundry is in public preview. If asked: zero-day lead time (1 trace), misjudged clarification (10), flight without policy check (4), policy hard gate (58), weak provenance (medium); insights-judge made 172 requests, about 3.9M tokens, about $36 estimated.
 -->
 
 ---
@@ -655,7 +655,7 @@ Pause on the slide for a beat before speaking.
 
 <!-- 
 Image description: 
-Slide titled "Caldova defines the hill: quality, cost and latency." A rising bar chart climbs from Baseline through Prompt tuning, Better context, Task decomposition, and Model routing to Optimized system. Alongside it, five optimization categories that can be applied one step at a time.
+Slide titled "Caldova defines the hill: quality, cost and latency," with the subtitle "Hill climb by picking one optimization lever at a time." A rising bar chart (Measure of Success over Iterations) climbs from Baseline through Prompt tuning, Better context, Task decomposition, and Model routing to Optimized system, which is marked with a check. A side panel lists five optimization categories: Prompts, Skills, Tools, Context, and Models. A banner reads "No single score defines the summit. Every iteration is judged across all three dimensions."
 
 Timing: 40 seconds
 Cumulative: 13:30
@@ -736,7 +736,7 @@ Walk the slide from left to right. The score is a consistent measure, not absolu
 
 <!-- 
 Image description: 
-VS Code with Copilot Chat. Copilot confirms it saved the five Insights findings and moves to "Step 5: Build the scorecard," which runs infra/06-scorecard.sh. It explains the script drafts a rubric of about seven weighted dimensions with a pass threshold of 0.5, and asks for review in Foundry (Evaluations > Evaluators) before Step 6, because the scorecard is locked once v1 is scored.
+VS Code with Copilot Chat. Copilot confirms it saved the five Insights findings and moves to "Next: Step 5, build the scorecard," which runs bash infra/06-scorecard.sh. It explains the script uploads the exploring and testing question sets, then drafts the brk330-travel-scorecard rubric from the v1 traces, the v1 agent, the guidance in scorecard-guidance.json, and the five findings. It expects about 7–8 weighted dimensions with a pass threshold of 0.5, and asks for review in Foundry (Evaluations > Evaluators) before Step 6, because the scorecard is locked once v1 is scored.
 
 Timing: 75 seconds
 Cumulative: 15:55
@@ -758,7 +758,7 @@ And at the bottom, general quality. It's always applied, as a catch-all for anyt
 Before we use it, a person reviews it in Foundry. Once we score the first version, the rubric is locked, so every later step is measured the same way.
 
 Presenter Guidance:
-Play CLIP06-RUBRICS (1:07). Keep src/scripts/build_scorecard.py open in case you want to show the SDK call (begin_create_generation_job, around line 142). On the evaluator page, point to policy_gate_compliance (weight 10) at the top, then tool_grounding and specificity_under_underspecification as the links back to Insights, then general_quality marked "Always applicable." Rubric Evaluator is in public preview. If asked: weights 10, 6, 6, 5, 4, 2, 5; overall score 0–1, each dimension 1–5; evaluated per turn and per conversation. The judge model is gpt-5.4-mini, a smaller model, which keeps scoring cheap. The script also saves the rubric as a JSON file under .azure/<env>/scorecard/, so it can be reviewed in the repo as well as in Foundry. Datasets: 108 exploring questions were run against v1 (36 easy, 36 medium, 36 hard); the exploring dataset uploaded for the rubric holds 36 of them; 24 separate testing questions are used for scoring.
+Play CLIP06-RUBRICS (1:07). Keep src/scripts/build_scorecard.py open in case you want to show the SDK call (begin_create_generation_job, around line 142). On the evaluator page, point to policy_gate_compliance (weight 10) at the top, then tool_grounding and specificity_under_underspecification as the links back to Insights, then general_quality marked "Always applicable." Rubric Evaluator is in public preview. If asked: weights 10, 6, 6, 5, 4, 2, 5; overall score 0–1, each dimension 1–5; evaluated per turn and per conversation. The judge model is gpt-5.4-mini, a smaller model, which keeps scoring cheap. The script also saves the rubric as a JSON file under .azure/<env>/scorecard/, so it can be reviewed in the repo as well as in Foundry. Datasets: the 36 exploring questions (12 easy, 12 medium, 12 hard) were each run three times against v1, for 108 traces; those 36 questions are uploaded for the rubric draft; 24 separate testing questions are used for scoring.
 -->
 
 ---
@@ -794,7 +794,7 @@ Trace the circle clockwise from Trace to Optimize. Evaluate is highlighted becau
 
 <!-- 
 Image description: 
-VS Code with Copilot Chat. After a checkpoint ("this is your last chance to change the scorecard"), Copilot shows "Next: Step 6, score v1" with the command bash infra/07-score.sh run --label v1. It explains that the step asks v1 the 24 testing questions, grades each answer with the scorecard, and takes about 5–7 minutes per round. For a steadier baseline, it suggests two more rounds with --repeats 2, then shows how to view the combined v1 row.
+VS Code with Copilot Chat. After the user types "next," Copilot shows "Next: Step 6, score v1" with the command bash infra/07-score.sh run --label v1. It explains that the step asks v1 the 24 testing questions, grades each answer with the scorecard, and that one round took about 5–7 minutes in an earlier run. For a steadier baseline, it suggests two more rounds with --repeats 2. It then gives bash infra/07-score.sh compare to view the combined v1 row: mean score, pass rate, scores by easy, medium, and hard, the weakest dimension, and response times.
 
 Timing: 115 seconds
 Cumulative: 18:15
@@ -929,7 +929,7 @@ Keep it quick. Have CLIP08-ROUTER-DEFAULT ready on the next slide. The subtitle 
 
 <!-- 
 Image description: 
-VS Code with Copilot Chat at "Next: Step 7, build and score v2 with Model Router," with the command bash infra/08-model-router.sh. Copilot explains that this deploys contoso-travel version 2 with the same code, tools, and instructions as v1, but with the model set to model-router, so the router picks a model for each request. It takes about a minute, and the portal stays on v1. It then shows how to score v2 the same way as v1 (07-score.sh run --label v2, two more rounds with --repeats 2, then compare). A "What to watch" note says to check whether policy_gate_compliance drops along with the overall score.
+VS Code with Copilot Chat at "Next: Step 7, build and score v2 with Model Router," with the command bash infra/08-model-router.sh. Copilot explains that this deploys contoso-travel version 2 with the same code, tools, and instructions as v1, but with the model set to model-router, so the router picks a model for each request. It takes about a minute, and the portal stays on v1. It then shows how to score v2 the same way as v1 (07-score.sh run --label v2, two more rounds with --repeats 2, then compare). A "What to watch" note quotes an earlier run, where v2 scored lower on quality (0.57 against 0.63, with hard questions at 0.45) but was about 65% cheaper per answer, and says to check whether policy_gate_compliance drops along with the overall score.
 
 Timing: 65 seconds
 Cumulative: 21:10
@@ -951,7 +951,7 @@ What hasn't moved is policy-gate compliance, our weakest dimension. Which makes 
 So cheaper, but not better. That's exactly why we measure every step.
 
 Presenter Guidance:
-Play CLIP08-ROUTER-DEFAULT (0:50). Talk about the trend, not the exact numbers. Pause on the comparison table (quality flat, hard questions down, policy_gate_compliance unchanged), then show the Monitor tab's cost breakdown by model. If asked: v1 0.70 / 90% vs v2 0.68 / 87%; tokens per answer up 44%; P50 latency 10.0 s to 14.4 s.
+Play CLIP08-ROUTER-DEFAULT (0:50). The "What to watch" note in the opening frame quotes an earlier run (0.57 against 0.63, about 65% cheaper); don't read it. Talk about the trend, not the exact numbers. Pause on the comparison table (quality flat, hard questions down, policy_gate_compliance unchanged), then show the Monitor tab's cost breakdown by model. If asked: v1 0.70 / 90% vs v2 0.68 / 87%; tokens per answer up 44%; P50 latency 10.0 s to 14.4 s.
 -->
 
 ---
@@ -960,7 +960,7 @@ Play CLIP08-ROUTER-DEFAULT (0:50). Talk about the trend, not the exact numbers. 
 
 <!-- 
 Image description: 
-VS Code with Copilot Chat showing a comparison table for v1 (gpt-5.4) and v2 (Model Router, Balanced): overall score, pass rate, scores by difficulty, and per-dimension rubric scores. The clip continues with a v2-quality run using a second Model Router deployment set to prioritize quality, a three-way comparison table (v1, v2 Balanced, v2-quality), and the model-router-quality Monitor tab in Foundry showing estimated cost by model.
+VS Code with Copilot Chat. The terminal has bash infra/08-model-router.sh --mode quality selected. At the top of the chat, a results table shows the v1 row: 72 rows scored, mean score 0.70, pass rate 90%. Copilot shows "Next: Step 7b, Model Router in Quality mode" with four commands: 08-model-router.sh --mode quality, 07-score.sh run --label v2-quality, the same with --repeats 2, and 07-score.sh compare. It explains that this creates a second router deployment, model-router-quality, which picks the strongest model for each request regardless of cost, and deploys an agent version labeled v2-quality while v2 and the portal (on v1) stay as they are. "What to watch": whether hard questions recover, and what happens to response times and tokens. The clip continues with the v2-quality score, a three-way comparison table (v1, v2 Balanced, v2-quality), and the model-router-quality Monitor tab in Foundry showing estimated cost by model.
 
 Timing: 70 seconds
 Cumulative: 22:20
@@ -1007,7 +1007,7 @@ Here's how it works. We take our best version of the agent as the teacher, colle
 We'll come back to this later, once we have a teacher worth learning from.
 
 Presenter Guidance:
-Point to the highlighted Fine-tune and Distillation columns; don't explain the other sliders. In the session repo, the fine-tuning lab (infra/09-fine-tune.sh) runs after Agent Optimizer. We don't cover it in detail in this session.
+Point to the highlighted Fine-tune and Distillation columns; don't explain the other sliders. In the session repo, the fine-tuning code is step 8 (infra/09-fine-tune.sh). We don't cover it in detail in this session.
 -->
 
 ---
@@ -1199,7 +1199,7 @@ Play CLIP10-OPTIMIZER (1:57). Read the two candidate rules aloud; they tie direc
 
 <!-- 
 Image description: 
-VS Code with the terminal on the left and Copilot Chat on the right. The terminal shows bash infra/11-promote.sh router running a smoke test: the agent identifies the employee's booking lead-time policy, checks Caldova travel policy, and states that no applicable lead-time rule was returned rather than inventing one. Copilot Chat shows the v1 baseline row and "Next: Step 11b, v3's instructions on Model Router," with commands to promote v3's instructions onto model-router (Balanced) as v3-router, score it, and compare. Notes say what it tests, why it's worth trying (better instructions plus cheaper models could keep v3's quality while cutting the doubled token cost), and what to watch: the hard-question score, policy_gate_compliance, and cost per answer in the Monitor tab.
+VS Code with the terminal on the left and Copilot Chat on the right. The terminal shows bash infra/11-promote.sh router running a smoke test: asked for EMP-001's booking lead-time policy and rule ID, the agent checks Caldova travel policy, notes that the policy tool returned no lead-time policy and no rule ID, and says it can't give a lead-time requirement rather than inventing one. Copilot Chat shows the v1 baseline row (mean 0.70, pass rate 90%, weakest area policy_gate_compliance) and "Next: Step 11b, v3's instructions on Model Router," with commands to promote v3's instructions onto model-router (Balanced) as v3-router, score it, and compare. Notes say what it tests and why it's worth trying (better instructions plus cheaper models could keep v3's quality while cutting the doubled token cost), quote an earlier run where this combination scored 0.54, and list what to watch: the hard-question score and policy_gate_compliance compared with v3, then cost per answer in the Monitor tab.
 
 Timing: 215 seconds
 Cumulative: 31:10
@@ -1247,12 +1247,12 @@ We started at our baseline, below Caldova's targets. Agent Optimizer fixed the i
 
 And not every step made it onto this chart. Our two router-only experiments didn't get promoted. But they told us where the real problem was.
 
-And the climb doesn't stop here. Remember distillation? Now we have a teacher worth learning from. That's the next step. The session repo has the lab and our results, so you can try it yourself. And the same goes for the model behind Insights: it's one more part of the system we can tune.
+And the climb doesn't stop here. Remember distillation? Now we have a teacher worth learning from. That's the next step. The session repo has the code for it, so you can try it yourself. And the same goes for the model behind Insights: it's one more part of the system we can tune.
 
 That's hill climbing: one change at a time, measured every time.
 
 Presenter Guidance:
-Walk the bars left to right and point to the dashed target line. Present the Fine-Tuning bar as the next step, not a recorded result; the lab (infra/09-fine-tune.sh) and results are in the session repo. If you're short on time, skip the router-only line.
+Walk the bars left to right and point to the dashed target line. Present the Fine-Tuning bar as the next step, not a recorded result; the code (infra/09-fine-tune.sh) is in the session repo. If you're short on time, skip the router-only line.
 -->
 
 ---
@@ -1313,7 +1313,7 @@ Walk the three rows top to bottom, one persona per row. End on the question to s
 
 <!-- 
 Image description: 
-Andre's photo above an "Andre's A-Ha Moment" label. A large animated figure changes from $11,400 to $5,982, captioned "Modeled annual costs for concierge (48% less)." Three figures below: Avg Cost Per Request $0.010, Requests per month 50,000, and Quality: measured (0.73 quality, 96% pass rate).
+Andre's photo above an "Andre's A-Ha Moment" label. A large animated figure changes from $11,400 to $5,982, captioned "Modeled annual costs for concierge (48% less)." In the static image, both amounts are drawn on top of each other. Three figures below: Avg Cost Per Request $0.010, Requests per month 50,000, and Quality: measured (0.73 quality, 96% pass rate).
 
 Timing: 40 seconds
 Cumulative: 33:35
@@ -1360,7 +1360,7 @@ And when the agent is ready, it can reach people where they already work, like M
 Build in GitHub. Run and optimize in Foundry. Reach users everywhere.
 
 Presenter Guidance:
-Follow the diagram left to right. Spend most of the time on the middle box. Distribution and governance are covered in other AI Tour sessions; one sentence is enough.
+Follow the diagram left to right. Spend most of the time on the middle box. Distribution and governance are covered in other Frontier Tour sessions; one sentence is enough.
 -->
 
 ---
@@ -1402,7 +1402,7 @@ Tie each row to a moment from the demo; don't read the right-hand column. Point 
 
 <!-- 
 Image description: 
-Closing slide reading "Visit the GitHub repository for today's presentation and other resources," with the short link aka.ms/aitour27/BRK330 in a blue pill, "...or scan the QR code," and a large QR code on the right, over a blue and violet ribbon graphic.
+Closing slide reading "Visit the GitHub repository for today's presentation and other resources," with the short link aka.ms/aitour27/BRK330 in a blue pill, "...or scan the QR code," and a large QR code on the right that links to the session repository on GitHub, over a blue and violet ribbon graphic.
 
 Timing: 25 seconds
 Cumulative: 35:35
@@ -1411,7 +1411,7 @@ Cumulative: 35:35
 
 <!--
 Speaker notes:
-Everything you saw today is in the session repo: the agent, the scripts, the clips, and the fine-tuning lab we didn't have time for. And it comes with a Copilot helper that walks you through it step by step, just like you saw.
+Everything you saw today is in the session repo: the agent, the scripts, the clips, and the fine-tuning code we didn't have time for. We encourage you to open Copilot Chat and ask the default agent to help you run the workshop step by step.
 
 Scan the QR code, or go to aka.ms/aitour27/BRK330.
 

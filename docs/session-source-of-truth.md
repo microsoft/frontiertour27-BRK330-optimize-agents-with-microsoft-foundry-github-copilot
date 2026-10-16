@@ -138,7 +138,7 @@ The self-paced path needs Microsoft Foundry in an Azure subscription. There is n
 - `eastus2`, or another region that has every model in [`infra/README.md`](../infra/README.md#models-and-capacity) with enough quota. Preflight checks this.
 - The dev container (it includes `az`, `azd`, the Foundry extensions, and Python).
 - GitHub Copilot and the Microsoft Learn MCP server, to rebuild the recorded Copilot workflow.
-- Agent Optimizer preview access in the target project.
+- Agent Optimizer in the target project. It's generally available, so no preview sign-up is needed.
 - A commitment to run step 12 when finished.
 
 ### Safety

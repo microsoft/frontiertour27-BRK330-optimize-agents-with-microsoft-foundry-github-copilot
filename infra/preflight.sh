@@ -239,7 +239,7 @@ report = {
   "warnings": warnings,
   "notes": [
     "gpt-oss models are intentionally excluded from fine-tuning.",
-    "Agent Optimizer preview/allow-list access must be verified in the target project.",
+    "Agent Optimizer is generally available; no preview or allow-list access is needed.",
     "Foundry and Microsoft Learn MCP status is verified in VS Code Agent mode.",
   ],
 }
