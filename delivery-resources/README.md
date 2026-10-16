@@ -31,16 +31,36 @@ Until Path A is published, rehearse with your own measured results. Do not inven
 
 ## Session preparation
 
-Complete the checklist above, then rehearse the run of show. The times below total 45 minutes.
+Complete the checklist above, then rehearse the run of show. The deck has 50 slides and runs about 35.5 minutes, which leaves room for questions in a 45-minute slot. Per-slide timings are in the [deck notes](slides/index.md).
 
-| Segment | Time | Purpose |
-|---|---:|---|
-| Opening and challenge | 5 min | Why quality, speed, and cost have to be measured separately. |
-| Make it work | 7 min | Build and deploy v1 with GitHub Copilot and Foundry skills; run the four portal scenarios. |
-| Understand where it struggles | 6 min | Show traces from repeated questions and the Insights findings. |
-| Make it better | 14 min | Show the scorecard drafted from traces, v1's score on testing questions, then v2 (Model Router) and v2-alt (fine-tuned) side by side. |
-| Make it scale | 9 min | Run Agent Optimizer from the chosen version, review candidates, retest v3, decide. |
-| Playbook and close | 4 min | One change at a time, the same test every time, a person decides. |
+| Segment | Slides | Start | Time | Purpose |
+|---|---|---:|---:|---|
+| Opening and challenge | 1–10 | 0:00 | 4:30 | Meet Caldova, Contoso, and the three personas: Krystal (make it work), Andre (make it better), and Lydia (make it scale). |
+| Act 1: Make it work | 11–18 | 4:30 | 5:35 | Build and deploy v1 on gpt-5.4 with GitHub Copilot; run the portal scenarios; Andre's cost math; traces. |
+| Insights | 19–21 | 10:05 | 2:25 | Run the 108 exploring questions and review the five Insights findings. |
+| Act 2: Make it better, rubric | 22–29 | 12:30 | 6:15 | Define the hill, build the rubric scorecard from traces, and score v1 on the 24 testing questions. |
+| Act 2: Make it better, Model Router | 30–36 | 18:45 | 4:35 | Score v2 on Model Router (Balanced), then Quality mode: cheaper, not better. Introduce distillation as a next lever. |
+| Act 3: Make it scale | 37–44 | 23:20 | 8:30 | Run Agent Optimizer from v1, pick the winning candidate (v3), then put v3 on Model Router (v3-router). |
+| Summary and close | 45–50 | 31:50 | 3:45 | Journey revisited, Andre's new bill, the optimization playbook, and resources. |
+| **Total** | 50 | | **35:35** | |
+
+## Demo videos
+
+Each clip plays on its own slide. Clip times are included in the slide timings above.
+
+| Clip | Slide | Starts at | Length | What it shows |
+|---|---:|---:|---:|---|
+| [CLIP01-RUN](videos/CLIP01-RUN.mp4) | 15 | 6:20 | 1:07 | Copilot builds and deploys v1 |
+| [CLIP02-PORTAL](videos/CLIP02-PORTAL.mp4) | 16 | 7:30 | 1:08 | Portal scenarios on v1 |
+| [CLIP03-TRACES](videos/CLIP03-TRACES.mp4) | 18 | 9:15 | 0:41 | Traces tab in Foundry |
+| [CLIP04-QUESTIONS](videos/CLIP04-QUESTIONS.mp4) | 20 | 10:35 | 0:24 | 108 exploring questions run |
+| [CLIP05-INSIGHTS](videos/CLIP05-INSIGHTS.mp4) | 21 | 11:10 | 1:02 | Insights findings |
+| [CLIP06-RUBRICS](videos/CLIP06-RUBRICS.mp4) | 26 | 14:40 | 1:07 | Rubric scorecard from traces |
+| [CLIP07-SCORE](videos/CLIP07-SCORE.mp4) | 28 | 16:20 | 1:47 | Score v1 on the testing questions |
+| [CLIP08-ROUTER-DEFAULT](videos/CLIP08-ROUTER-DEFAULT.mp4) | 33 | 20:05 | 0:50 | v2 on Model Router (Balanced) |
+| [CLIP09-ROUTER-QUALITY](videos/CLIP09-ROUTER-QUALITY.mp4) | 34 | 21:10 | 0:55 | v2 on Model Router (Quality) |
+| [CLIP10-OPTIMIZER](videos/CLIP10-OPTIMIZER.mp4) | 42 | 25:25 | 1:57 | Agent Optimizer candidates and winner (v3) |
+| [CLIP11-OPTIMIZER-ROUTER](videos/CLIP11-OPTIMIZER-ROUTER.mp4) | 43 | 27:35 | 3:24 | v3 instructions on Model Router (v3-router) |
 
 ## Presenter notes
 
@@ -51,20 +71,23 @@ Complete the checklist above, then rehearse the run of show. The times below tot
 - Use the same test for every version: the same 24 testing questions, the same
   scorecard, the same judge. Change one thing per version, then report quality,
   speed, and tokens separately.
-- Fine-tuning (v2-alt) runs before the session. Show the result, not the job.
+- Fine-tuning isn't demoed. Present it as the next step (slides 36 and 44) and
+  point to the lab in [`infra/09-fine-tune.sh`](../infra/09-fine-tune.sh).
 - The optimizer practices on practice questions only. Its scores are hints; the
   real comparison is step 07 on the testing questions.
+- On intermediate slides, talk about trends. Exact numbers are in each slide's
+  presenter guidance under "If asked".
 - Nothing goes live until a person runs `bash infra/11-promote.sh go-live`. Keeping v1 is a
   valid outcome.
 - Add the public central delivery deck URL when it becomes available.
 
 ## Demo reproducibility
 
-**Implementation status:** The refreshed flow (three question sets, trace-based scorecard, v2 and v2-alt, optimizer from the chosen version) is ready for its first full run in `eastus2`. Screenshots, deck, and recordings will be refreshed from that run.
+**Implementation status:** The recorded flow covers v1, v2 (Model Router, Balanced and Quality), v3 (Agent Optimizer), and v3-router. Screenshots and clips come from that run.
 
-The three edited demo targets remain 4 minutes for make it work and Insights,
-6 minutes for the scorecard and the two levers, and 5 minutes for Agent
-Optimizer. Cut cloud wait time; never fabricate results or force a winner.
+The edited clips total about 2:55 for make it work, 1:30 for Insights, 2:55 for
+the rubric, 1:45 for Model Router, and 5:20 for Agent Optimizer. Cut cloud wait
+time; never fabricate results or force a winner.
 
 For a demo reset, switch the portal back to the version you want and start a new conversation:
 
@@ -78,8 +101,9 @@ After recordings are published, use the reviewed recording when preview access, 
 
 ## Setup notes
 
-- Run steps 01 to 09 the day before. They create v1, v2, v2-alt, traces, Insights findings, the scorecard, and scores.
-- Submit the optimizer (step 10) before the session so candidates are ready to review on stage.
+- Run steps 01 to 08 the day before. They create v1, v2, v2-quality, traces, Insights findings, the scorecard, and scores.
+- Submit the optimizer (step 10) before the session so candidates are ready to review on stage. Step 11 (`router` phase) creates v3-router.
+- Step 09 (fine-tuning) is optional and not part of the demo.
 - Start a new portal conversation after switching versions.
 - Complete the readiness checklist before recording and publication.
 
