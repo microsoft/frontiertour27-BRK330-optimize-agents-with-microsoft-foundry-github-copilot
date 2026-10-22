@@ -6,7 +6,7 @@
 
 | Item | Link | Notes |
 |---|---|---|
-| Delivery deck | Slides: [English](https://aka.ms/ft27/brk330/slides/en) | Session delivery slides (English) |
+| Delivery deck | Slides: [English](https://aka.ms/ft27/brk330/slides/en) \| [German](https://aka.ms/ft27/brk330/slides/de) | Session delivery slides |
 | Session recording | [Watch on YouTube](https://aka.ms/ft27/brk330/youtube) | Recording of BRK330 by the session creator |
 | Demo clips | [videos/](videos/) | The 11 recorded demo clips used in the deck (see [Demo videos](#demo-videos)) |
 | Deck with speaker notes | [slides/index.md](slides/index.md) | Marp version of the deck: every slide image with its timing, speaker notes, and presenter guidance |
